@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vos — Rioplatense, whole</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Lora:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#101A2E;--ink-2:#18243D;--ink-3:#22314F;--cream:#F2E8D5;--cream-dim:#B9AE9A;
+--verm:#D6432F;--gold:#E0A83C;--sky:#6FA3C7;
+--display:'Bodoni Moda',Georgia,serif;--body:'Lora',Georgia,serif;--mono:'IBM Plex Mono',ui-monospace,monospace;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:0 22px 100px}
+.hero{padding:70px 0 40px}
+.hero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 24px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(60px,19vw,120px);line-height:.82;margin:0;letter-spacing:-.02em}
+.hero h1 em{font-style:italic;color:var(--verm)}
+.hero .sub{font-size:19px;color:var(--cream-dim);margin:24px 0 0;max-width:46ch}
+.rule{height:1px;background:linear-gradient(90deg,var(--verm),var(--gold) 40%,transparent);border:0;margin:0}
+nav{position:sticky;top:0;z-index:30;background:var(--ink);border-bottom:1px solid var(--ink-3);
+display:flex;gap:6px;overflow-x:auto;padding:10px 0;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+background:none;border:1px solid var(--ink-3);color:var(--cream-dim);padding:7px 12px;border-radius:2px;cursor:pointer;white-space:nowrap}
+nav button.on{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.unit{padding:46px 0 10px;scroll-margin-top:64px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sky);margin:0 0 10px}
+h2{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.08;margin:0 0 16px;letter-spacing:-.01em}
+h3{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 12px;font-weight:500}
+p{margin:0 0 16px}
+.note-b{background:var(--ink-2);border-left:2px solid var(--gold);padding:18px 20px;margin:0 0 20px}
+.note-b p{margin:0;font-size:16px;color:var(--cream-dim)}
+.note-b p b{color:var(--cream)}
+/* phrase rows */
+.rows{margin:0 0 22px}
+.row{padding:15px 0;border-top:1px solid var(--ink-3)}
+.row:first-child{border-top:0}
+.row .es{font-family:var(--display);font-size:23px;line-height:1.25;margin:0;cursor:pointer;color:var(--cream)}
+.row .es::after,.msg .es::after,.sw-s::after{content:'▸';font-size:.55em;color:var(--gold);opacity:.7;margin-left:.4em;vertical-align:middle}
+.row .es:hover,.msg .es:hover,.sw-s:hover{color:var(--gold)}
+.row .es:active,.msg .es:active{color:var(--verm)}
+.phon{font-family:var(--mono);font-size:11px;color:var(--gold);margin:5px 0 0;letter-spacing:.04em}
+.nospeech-bar{background:var(--ink-2);border-left:2px solid var(--gold);padding:14px 18px;margin:0 0 4px;
+font-size:15px;color:var(--cream-dim)}
+.nospeech-bar b{color:var(--cream)}
+.row .en{font-size:15px;color:var(--cream-dim);margin:5px 0 0}
+.row .hint{font-family:var(--mono);font-size:11px;color:var(--sky);margin:5px 0 0;letter-spacing:.03em}
+.il{display:flex;flex-wrap:wrap;gap:0 11px;margin:9px 0 0}
+.ilw{display:inline-flex;flex-direction:column;line-height:1.25;margin-bottom:5px}
+.ilw-es{font-family:var(--body);font-size:14px;color:var(--cream);font-style:italic}
+.ilw-en{font-family:var(--mono);font-size:10px;color:var(--sky)}
+/* conjugator */
+.card{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:3px;padding:22px;margin:0 0 20px}
+input[type=text]{background:var(--ink);border:1px solid var(--ink-3);color:var(--cream);font-family:var(--mono);font-size:16px;padding:11px 13px;border-radius:2px;width:100%}
+input[type=text]:focus{outline:2px solid var(--gold);outline-offset:1px}
+.out{font-family:var(--display);font-size:30px;color:var(--gold);margin:18px 0 0;line-height:1.2;cursor:pointer}
+.out .oen{display:block;font-family:var(--body);font-style:italic;font-size:17px;color:var(--cream);margin-top:6px}
+.out .orule{display:block;font-family:var(--mono);font-size:11px;color:var(--cream-dim);margin-top:6px;letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{background:var(--ink);border:1px solid var(--ink-3);border-radius:2px;padding:8px 12px;cursor:pointer;
+display:flex;flex-direction:column;gap:2px;align-items:flex-start;text-align:left;line-height:1.3;font-family:var(--mono)}
+.chip .c-es{font-size:14px;color:var(--cream)}
+.chip .c-en{font-size:10px;color:var(--cream-dim)}
+.chip:hover{border-color:var(--gold)}
+.chip:hover .c-es{color:var(--gold)}
+.chip.on{border-color:var(--gold)}
+/* ser-estar */
+.sw{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:3px;overflow:hidden;margin:0 0 20px}
+.sw-head{display:flex;border-bottom:1px solid var(--ink-3)}
+.sw-head button{flex:1;background:none;border:0;padding:15px 8px;cursor:pointer;font-family:var(--display);font-size:26px;color:var(--cream-dim)}
+.sw-head button.on{color:var(--ink);background:var(--gold)}
+.sw-body{padding:26px 22px 22px}
+.sw-s{font-family:var(--display);font-size:clamp(26px,7vw,36px);line-height:1.15;margin:0;cursor:pointer}
+.sw-s .v{color:var(--verm);font-style:italic}
+.sw-m{font-size:16px;color:var(--cream-dim);margin:12px 0 0;min-height:3em}
+.sw-m b{color:var(--cream);font-weight:500}
+.sw-nav{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}
+.sw-nav button{font-family:var(--mono);font-size:12px;background:var(--ink);border:1px solid var(--ink-3);color:var(--cream-dim);padding:6px 11px;border-radius:2px;cursor:pointer}
+.sw-nav button.on{border-color:var(--gold);color:var(--gold)}
+/* drill */
+.dq{font-family:var(--display);font-size:23px;line-height:1.3;margin:0 0 6px}
+.dq .gap{color:var(--verm);border-bottom:2px solid var(--verm);padding:0 .5em}
+.den{font-size:15px;color:var(--cream-dim);margin:0 0 14px}
+.dopts{display:flex;flex-wrap:wrap;gap:8px}
+.dopts button{font-family:var(--body);font-size:16px;background:var(--ink);border:1px solid var(--ink-3);color:var(--cream);padding:9px 15px;border-radius:2px;cursor:pointer;font-style:italic}
+.dopts button:hover{border-color:var(--gold)}
+.dopts button.right{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.dopts button.wrong{border-color:var(--verm);color:var(--verm);opacity:.55}
+.dfb{font-size:15px;color:var(--cream-dim);margin:14px 0 0}
+.dnext{font-family:var(--mono);font-size:12px;letter-spacing:.12em;background:none;
+border:1px solid var(--gold);color:var(--gold);padding:9px 16px;border-radius:2px;cursor:pointer;margin-top:16px;display:none}
+.dnext.show{display:inline-block}
+.dnext:hover{background:var(--gold);color:var(--ink)}
+.dprog{font-family:var(--mono);font-size:11px;color:var(--sky);margin:0 0 12px;letter-spacing:.1em}
+/* tutor */
+.tutor{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:3px;overflow:hidden}
+.log{padding:20px;max-height:440px;overflow-y:auto}
+.msg{margin:0 0 18px}
+.who{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--cream-dim);margin:0 0 5px}
+.msg.her .who{color:var(--gold)}
+.msg .es{font-family:var(--display);font-size:20px;line-height:1.35;margin:0;cursor:pointer}
+.msg.you .es{font-style:italic;color:var(--sky);font-size:18px}
+.msg .en{font-size:14px;color:var(--cream-dim);margin:6px 0 0}
+.msg .note{font-size:13px;color:var(--verm);margin:8px 0 0;border-left:2px solid var(--verm);padding-left:11px}
+.starters{display:flex;flex-direction:column;gap:8px;padding:0 14px 14px}
+.starters .chip{width:100%}
+.compose{display:flex;gap:8px;padding:14px;border-top:1px solid var(--ink-3)}
+.send{background:var(--verm);border:0;color:var(--cream);font-family:var(--mono);font-size:13px;letter-spacing:.1em;padding:0 17px;border-radius:2px;cursor:pointer}
+footer{margin-top:60px;padding-top:24px;border-top:1px solid var(--ink-3)}
+footer p{font-family:var(--mono);font-size:12px;color:var(--cream-dim);line-height:1.9}
+footer b{color:var(--gold);font-weight:500}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<p class="eyebrow">Rioplatense · the whole thing</p>
+<h1>Vos,<br><em>no t&uacute;</em></h1>
+<p class="sub">Eight units, in the order that gets you talking rather than ordering coffee. Every Spanish line shows its English and its word-by-word structure. Tap any line to hear it.</p>
+</header>
+<hr class="rule">
+<nav id="nav"></nav>
+<main id="main"></main>
+<section class="unit" id="u-malena">
+<p class="tag">08 &middot; The only part that counts</p>
+<h2>Talk to someone</h2>
+<p>Everything above is preparation. Malena answers in Rioplatense and keeps asking. Every reply option shows its English underneath, so you are never guessing.</p>
+<div class="tutor">
+<div class="log" id="log"></div>
+<div class="starters" id="starters"></div>
+<div class="compose"><input type="text" id="tin" placeholder="escrib&iacute; algo…" autocomplete="off"><button class="send" id="tsend">ENVIAR</button></div>
+</div>
+</section>
+<footer>
+<p><b>Daily:</b> 30 min input &middot; 10 min sentence cards &middot; 20 min speaking<br>
+<b>Week 8:</b> 20 unscripted minutes without them switching to English<br>
+<b>Not allowed:</b> building a tool to track any of this</p>
+</footer>
+</div>
+<script>
+/* ============ word glosses ============ */
+const G={
+"a":"to","abrí":"open","aburrido":"boring/bored","acá":"here","acordarse":"to-remember","acuerdo":"I-remember","agarre":"holds(sub)","ahora":"now","ahí":"there","al":"to-the","alegra":"gladdens","algo":"something","alguien":"someone","allá":"over-there","amable":"kind","amor":"love","andá":"go","antes":"before","aprendas":"you-learn(sub)","aprender":"to-learn","aprendiendo":"learning","aprendo":"I-learn","aprendí":"I-learned","aquel":"that-one","argentino":"Argentine","arrancamos":"we-start","asusta":"scares","así":"like-that","aunque":"although","aviso":"I-let-know","ay":"oh","ayer":"yesterday","bailar":"to-dance","bancame":"wait-for-me","barrio":"neighbourhood","bien":"well","boludo":"mate","bueno":"good/well","buscando":"looking-for","cada":"each","café":"coffee","cafecito":"little-coffee","callada":"quiet","callado":"quiet","calor":"warmth","cansa":"tires","cansado":"tired","cara":"face","casa":"house","casualidad":"coincidence","cementerio":"graveyard","cerca":"near","cerrado":"closed","chacarita":"Chacarita","chau":"bye","che":"hey","chico":"small","cien":"hundred","cierto":"true","ciudad":"city","cocina":"kitchen","comer":"to-eat","comés":"you-eat","comé":"eat","comí":"I-ate","comía":"I-used-to-eat","coma":"I-eat(sub)","como":"like/as","cómo":"how","con":"with","conmigo":"with-me","conocí":"I-met","construir":"to-build","construís":"you-build","construyo":"I-build","contame":"tell-me","contar":"to-tell","contaría":"I-would-tell","contás":"you-tell","cosa":"thing","cosas":"things","creo":"I-believe","creí":"I-believed","cuando":"when","cuenta":"tells","cuentes":"you-tell(sub)","cuerpo":"body","cuál":"which","dale":"go-on/okay","dar":"to-give","de":"of/from","decime":"tell-me","decir":"to-say","decís":"you-say","dejá":"leave","del":"of-the","demasiado":"too-much","derretís":"you-melt","desde":"since","descansás":"you-rest","despacio":"slowly","despacito":"slowly(soft)","después":"after","día":"day","dice":"says","dicen":"they-say","diciendo":"saying","dije":"I-said","dijiste":"you-said","directo":"direct","difícil":"hard","distinto":"different","dormí":"I-slept","dos":"two","dónde":"where","el":"the","ella":"she","empezamos":"we-start","empezar":"to-start","en":"in","encanta":"delights","enero":"January","enseñó":"taught","entendí":"I-understood","entiendo":"I-understand","entonces":"then","era":"was(ongoing)","eran":"were","es":"is","escuchar":"to-listen","escuchaste":"you-listened","escucho":"I-listen","escuchás":"you-listen","ese":"that","eso":"that","esperar":"to-hope/wait","espero":"I-hope","esta":"this","estaba":"was(state)","estar":"to-be(state)","estás":"you-are(state)","está":"is(state)","estés":"you-are(sub)","esté":"is(sub)","estoy":"I-am(state)","estuve":"I-was(state)","explicar":"to-explain","extraño":"I-miss","falta":"is-lacking","feo":"ugly","fijate":"notice","fin":"end","frío":"cold","fue":"was/went","fui":"I-was/went","gente":"people","gracias":"thanks","grande":"big","gusta":"pleases","gustan":"please(pl)","gustar":"to-please","guste":"pleases(sub)","gustó":"pleased","había":"there-was","hablar":"to-speak","hable":"I-speak(sub)","hablemos":"we-speak(sub)","hablé":"I-spoke","hablaba":"I-used-to-speak","hablás":"you-speak","hablamos":"we-speak","hace":"makes/ago","hacer":"to-do","hacés":"you-do","hago":"I-do","hambre":"hunger","hasta":"until","hay":"there-is","hermoso":"beautiful","hiciste":"you-did","hola":"hi","holanda":"Holland","hombre":"man","honesto":"honest","hoy":"today","idioma":"language","igual":"anyway","imagino":"I-imagine","importante":"important","intensa":"intense","intentando":"trying","intentar":"to-try","ir":"to-go","irfán":"Irfán","jaja":"ha-ha","joven":"young","la":"the","las":"the","le":"to-him/her","les":"to-them","levanté":"I-got-up","linda":"lovely","lindo":"lovely","llamar":"to-call","llamo":"I-call","llamás":"you-call","llegue":"I-arrive(sub)","llego":"I-arrive","llegué":"I-arrived","llevarnos":"to-get-along","llevo":"I-take","llovía":"it-was-raining","lo":"it","los":"the","luego":"later","lugar":"place","lugares":"places","luz":"light","madre":"mother","malena":"Malena","mano":"hand","manos":"hands","mañana":"tomorrow/morning","me":"me","medio":"half","mejor":"better","mejores":"best","menos":"less","mentira":"lie","mentiste":"you-lied","mentí":"I-lied","mes":"month","mi":"my","miedo":"fear","mientras":"while","mirá":"look","mirar":"to-look","mismo":"same","molesta":"bothers","mucha":"much","mucho":"much","muy":"very","más":"more","nada":"nothing","nadie":"nobody","necesitás":"you-need","ni":"nor","ninguno":"neither","niño":"child","no":"no/not","noche":"night","nombre":"name","nos":"us","nosotros":"we","nota":"shows","nuevo":"new","nunca":"never","o":"or","ojalá":"I-wish","otra":"another","otro":"another","paciencia":"patience","padre":"father","para":"for","parar":"to-stop","parece":"seems","parecés":"you-seem","pasado":"past","pasó":"happened","pensado":"thought","pensando":"thinking","pensar":"to-think","pensás":"you-think","perdón":"sorry","perfecto":"perfect","pero":"but","persona":"person","piensa":"one-thinks","poco":"little","podés":"you-can","poder":"to-be-able","poquito":"little-bit","por":"for/by","porque":"because","porteña":"Buenos-Aires-woman","porté":"behaved","posible":"possible","posta":"for-real","primero":"first","probá":"try","profundo":"deep","progreso":"progress","puede":"can","puedo":"I-can","que":"that","quedaría":"I-would-stay","quedarme":"to-stay","querer":"to-want","querés":"you-want","quería":"I-wanted","quiero":"I-want","quién":"who","qué":"what","rápido":"fast","raro":"strange","re":"really","repente":"sudden","repitiendo":"repeating","respuesta":"answer","respuestas":"answers","rico":"rich/tasty","rompas":"you-break(sub)","rutina":"routine","sabe":"knows","saber":"to-know","sabía":"I-knew","sale":"comes-out","salir":"to-go-out","se":"itself","sea":"is(sub)","seguimos":"we-continue","seguir":"to-continue","sentir":"to-feel","sentí":"feel/I-felt","sentís":"you-feel","sepas":"you-know(sub)","ser":"to-be(trait)","serio":"serious","si":"if","siempre":"always","siente":"feels","significa":"means","sin":"without","sistemas":"systems","sobre":"about","software":"software","sol":"sun","solas":"by-themselves","solo":"alone/only","son":"are","sos":"you-are(trait)","soy":"I-am(trait)","su":"his/her","subjuntivo":"subjunctive","suelto":"loose","suena":"sounds","suerte":"luck","sé":"I-know","sí":"yes","sólo":"only","también":"also","tampoco":"neither","tan":"so","tarde":"late","te":"you","tenía":"I-had","tener":"to-have","tenga":"I-have(sub)","tengas":"you-have(sub)","tengo":"I-have","tenés":"you-have","tiempo":"time","toca":"touches","todavía":"still/yet","todo":"everything","todos":"everyone","tomar":"to-take/drink","toque":"moment","trabajar":"to-work","trabajo":"work","tranqui":"easy","tranquilo":"quiet","tu":"your","turco":"Turkish","turismo":"tourism","turista":"tourist","turquía":"Turkey","tuve":"I-had","tuviera":"I-had(sub)","tuyo":"yours","uf":"ugh","un":"a","una":"a","uno":"one","usaste":"you-used","va":"goes","vamos":"we-go","vas":"you-go","vaya":"I-go(sub)","vayas":"you-go(sub)","veces":"times","venir":"to-come","vengas":"you-come(sub)","vení":"come","venís":"you-come","ver":"to-see","verano":"summer","verdad":"true","verlo":"to-see-it","vez":"time","vi":"I-saw","viejo":"old","viene":"comes","vino":"came/wine","viste":"right?","vivir":"to-live","vivo":"I-live","vivía":"I-used-to-live","vivís":"you-live","volver":"to-return","volvés":"you-return","vos":"you","voy":"I-go","vuelvo":"I-return","y":"and","ya":"already","yo":"I","él":"he","¿":"","?":"","aburre":"bores","importa":"matters","interesa":"interests","duele":"hurts","queda":"remains/suits","falta":"is-lacking","encantan":"delight","preocupa":"worries","alegro":"I-gladden","arrepiento":"I-regret","atrevo":"I-dare","acuesto":"I-lie-down","despierto":"I-wake","fui":"I-went/was","iba":"I-used-to-go","estaban":"they-were","dio":"gave","puse":"I-put","dicho":"said","hecho":"done","visto":"seen","escrito":"written","he":"I-have(aux)","has":"you-have(aux)","habías":"you-had(aux)","hubiera":"had(sub)","habría":"would-have","haya":"has(sub)","estuviera":"I-were(state)","fuera":"I-were(trait)","pudiera":"I-could(sub)","supiera":"I-knew(sub)","viniera":"came(sub)","dijera":"said(sub)","daría":"I-would-give","diría":"I-would-say","haría":"I-would-do","podría":"I-could","sería":"would-be","tendría":"I-would-have","vendría":"would-come","querría":"I-would-want","seguiría":"I-would-continue","gustaría":"would-please","molestaría":"would-bother","cuentes":"you-tell(sub)","salgas":"you-leave(sub)","hagas":"you-do(sub)","digas":"you-say(sub)","veas":"you-see(sub)","des":"you-give(sub)","pongas":"you-put(sub)","conozcas":"you-know(sub)","llames":"you-call(sub)","escuches":"you-listen(sub)","mires":"you-look(sub)","quieras":"you-want(sub)","puedas":"you-can(sub)","seas":"you-are(sub)","vuelvas":"you-return(sub)","calle":"street","llena":"full","hablo":"I-speak","habló":"he-spoke","tomo":"I-drink","tomó":"he-drank","sopa":"soup","rica":"tasty","gustás":"you-please","tus":"your","esto":"this","da":"gives","ruido":"noise","ocho":"eight","llamaste":"you-called","ankara":"Ankara","viví":"I-lived","años":"years","conocía":"I-knew","valiente":"brave","verte":"to-see-you","quedo":"I-stay","preguntarte":"to-ask-you","ratito":"little-while","nomás":"just","ah":"ah","espera":"waits","default":"default","castellano":"Spanish","alguna":"any","español":"Spanish","complicado":"complicated","investigo":"I-research","coordinan":"coordinate","final":"end"
+};
+
+/* ============ curriculum ============ */
+const UNITS=[
+{n:'00',tag:'Sound',title:'What you already have',
+ lede:'Turkish gives you the two things English speakers fight for a decade: five pure vowels and a tapped r. You are not starting at zero, you are starting past the accent wall. What is left is one consonant shift and one stress rule.',
+ b:[
+ {t:'note',h:'The shift that makes it Buenos Aires',x:'Everywhere else <b>ll</b> and <b>y</b> sound like an English <em>y</em>. In Buenos Aires they are <b>sh</b>. This one substitution is most of the accent.'},
+ {t:'ph',items:[
+  ['Yo me llamo Irfán.','My name is Irfán.','sho me SHA-mo'],
+  ['¿Vos cómo te llamás?','What is your name?','vos KO-mo te sha-MAS'],
+  ['La calle está llena.','The street is full.','la KA-she es-TA SHE-na'],
+  ['Ya llegué.','I already arrived.','sha she-GHE']]},
+ {t:'note',h:'Stress, in one rule',x:'A written accent always wins. Otherwise: words ending in a vowel, <b>n</b> or <b>s</b> stress the second-to-last syllable; everything else stresses the last. That is the entire system, and it never has exceptions.'},
+ {t:'ph',items:[
+  ['hablo · hablás · habló','I speak · you speak · he spoke','same letters, three tenses — only the stress moves'],
+  ['Tomo café.','I drink coffee.',''],
+  ['Tomó café.','He drank coffee.','']]}
+]},
+
+{n:'01',tag:'Vos',title:'The pronoun that takes ten minutes',
+ lede:'Argentina does not use tú. It uses vos, and vos is the most regular form in the language: drop the final -r, add -s, stress the last vowel. There are no exceptions in the present tense except ser.',
+ b:[
+ {t:'conj'},
+ {t:'ph',items:[
+  ['vos hablás','you speak','hablar → hablá + s'],
+  ['vos comés','you eat','comer → comé + s'],
+  ['vos vivís','you live','vivir → viví + s'],
+  ['vos tenés','you have','tener → tené + s'],
+  ['vos sos','you are','the only irregular']]},
+ {t:'note',h:'Commands are the same, minus the s',x:'Argentines live in this form. It is warm, not rude — the imperative is how affection is delivered here.'},
+ {t:'ph',items:[
+  ['Mirá.','Look.',''],
+  ['Vení.','Come.',''],
+  ['Contame.','Tell me.',''],
+  ['Decime la verdad.','Tell me the truth.',''],
+  ['Dejá, yo lo hago.','Leave it, I will do it.','']]},
+ {t:'drill',items:[
+  {pre:'Vos ',post:' muy rápido.',opts:['hablas','hablás'],ok:1,why:'Vos always moves the stress to the last vowel.',en:'You speak very fast.'},
+  {pre:'¿Vos ',post:' hambre?',opts:['tenés','tienes'],ok:0,why:'Vos does not break the stem. <em>Tienes</em> is tú.',en:'Are you hungry?'},
+  {pre:'Vos ',post:' argentino.',opts:['sos','eres'],ok:0,why:'The one irregular worth memorising.',en:'You are Argentine.'}]}
+]},
+
+{n:'02',tag:'Ser / Estar',title:'One sentence, two meanings',
+ lede:'Spanish splits to be in two. Ser is what something is; estar is how it is right now. The gap between them is where most of the charm lives, and it does not exist in English, Dutch or Turkish.',
+ b:[
+ {t:'switch'},
+ {t:'note',h:'The rule under the rule',x:'<b>Ser</b> = identity, origin, material, time, profession, permanent traits. <b>Estar</b> = location, mood, condition, anything that could change by tomorrow.'},
+ {t:'ph',items:[
+  ['Sos linda.','You are beautiful.','a fact about you'],
+  ['Estás linda.','You look beautiful.','tonight, and I noticed'],
+  ['Es aburrido.','He is boring.','careful'],
+  ['Está aburrido.','He is bored.','entirely different sentence'],
+  ['Estás callado.','You have gone quiet.','an invitation, not a description'],
+  ['La sopa es rica.','The soup is good food.','a property of it'],
+  ['La sopa está rica.','The soup tastes great.','right now, in my mouth']]},
+ {t:'drill',items:[
+  {pre:'Hoy ',post:' cansado.',opts:['soy','estoy'],ok:1,why:'Tiredness passes. Estar.',en:'Today I am tired.'},
+  {pre:'Mi madre ',post:' de Turquía.',opts:['es','está'],ok:0,why:'Origin never changes. Ser.',en:'My mother is from Turkey.'},
+  {pre:'El café ',post:' frío.',opts:['es','está'],ok:1,why:'It was hot ten minutes ago. Estar.',en:'The coffee is cold.'}]}
+]},
+
+{n:'03',tag:'Backwards verbs',title:'The feeling is the subject',
+ lede:'Gustar does not mean to like. It means to please. The thing you like is the subject and you are the object, so the grammar puts the feeling in charge. A whole family of emotion verbs works this way, and using them correctly is the fastest way to stop sounding translated.',
+ b:[
+ {t:'ph',items:[
+  ['Me gustás.','I like you.','literally: you please me'],
+  ['Me gustan tus manos.','I like your hands.','plural thing → gustan'],
+  ['Me re gusta esto.','I really like this.','re is the Argentine intensifier'],
+  ['Me da igual.','I do not mind.','it gives me the same'],
+  ['Me molesta el ruido.','The noise bothers me.',''],
+  ['Me duele.','It hurts me.',''],
+  ['Te queda bien.','It suits you.',''],
+  ['Me falta tiempo.','I lack time.',''],
+  ['Me encanta cómo pensás.','I love how you think.','']]},
+ {t:'note',h:'And the reflexive emotions',x:'These put the feeling on yourself. They are the verbs you need to say what is happening inside you rather than what you have decided.'},
+ {t:'ph',items:[
+  ['Me alegro.','I am glad.',''],
+  ['Me arrepiento.','I regret it.',''],
+  ['No me atrevo.','I do not dare.',''],
+  ['Me preocupa.','It worries me.','']]},
+ {t:'drill',items:[
+  {pre:'Me ',post:' tus ojos.',opts:['gusta','gustan'],ok:1,why:'The eyes are the subject, and they are plural.',en:'I like your eyes.'},
+  {pre:'A mí me ',post:' esta ciudad.',opts:['encanta','encanto'],ok:0,why:'The city delights me — the city is doing the verb.',en:'I love this city.'}]}
+]},
+
+{n:'04',tag:'The past',title:'What happened, and what was going on',
+ lede:'Spanish has two pasts and they are not interchangeable. Pretérito is a closed event. Imperfecto is the background it happened against. Choosing between them is choosing what the story is about.',
+ b:[
+ {t:'ph',items:[
+  ['Comí a las ocho.','I ate at eight.','one closed event'],
+  ['Comía cuando llamaste.','I was eating when you called.','background, then interruption'],
+  ['Vivía en Ankara.','I used to live in Ankara.','an era, no endpoint'],
+  ['Viví en Ankara dos años.','I lived in Ankara for two years.','bounded, so closed'],
+  ['La conocí en verano.','I met her in summer.','conocer in pretérito = met'],
+  ['La conocía bien.','I knew her well.','imperfecto = knew'],
+  ['Llovía y no dije nada.','It was raining and I said nothing.','both, doing different jobs']]},
+ {t:'note',h:'The test',x:'Ask whether the sentence answers <em>what happened?</em> or <em>what was it like?</em> The first takes pretérito, the second imperfecto. Description, weather, age, time and ongoing states are almost always imperfecto.'},
+ {t:'drill',items:[
+  {pre:'Ayer ',post:' con ella.',opts:['hablaba','hablé'],ok:1,why:'Ayer closes it. One event.',en:'Yesterday I spoke with her.'},
+  {pre:'Cuando era chico, ',post:' mucho.',opts:['leía','leí'],ok:0,why:'A repeated habit across an era.',en:'When I was small, I read a lot.'}]}
+]},
+
+{n:'05',tag:'Subjunctive',title:'Everything that is not settled',
+ lede:'This is the mood textbooks defer to year two, and it is the reason their students can order coffee and nothing else. Indicative states what is. Subjunctive handles wanting, doubting, hoping, fearing and imagining. Nearly every sentence with feeling in it needs this.',
+ b:[
+ {t:'note',h:'Building it',x:'Take the <em>yo</em> form of the present, drop the <b>-o</b>, flip the vowel. <em>Hablo → hable. Como → coma. Tengo → tenga. Salgo → salga.</em> Irregulars are six: sea, vaya, sepa, haya, esté, dé.'},
+ {t:'ph',items:[
+  ['Quiero que me cuentes todo.','I want you to tell me everything.','wanting'],
+  ['Espero que vengas.','I hope you come.','hoping'],
+  ['Ojalá que sí.','I hope so.','the most Spanish sentence there is'],
+  ['No creo que sea casualidad.','I do not think it is a coincidence.','doubting'],
+  ['Me alegra que estés acá.','I am glad you are here.','emotion, even about a fact'],
+  ['Antes de que te vayas…','Before you go…','not yet happened'],
+  ['Cuando vengas, te llevo.','When you come, I will take you.','a future that has not happened'],
+  ['No hace falta que sepas.','You do not need to know.','']]},
+ {t:'note',h:'The pair that shows the whole thing',x:'<em>Cuando venís</em> is routine — you come every Tuesday. <em>Cuando vengas</em> is still open — it has not happened, and might not. Same word, and the mood carries the entire difference.'},
+ {t:'drill',items:[
+  {pre:'Sé que ',post:' mañana.',opts:['venís','vengas'],ok:0,why:'Knowing is certain. Indicative.',en:'I know you are coming tomorrow.'},
+  {pre:'Espero que ',post:' mañana.',opts:['venís','vengas'],ok:1,why:'Hoping is not certain. Subjunctive.',en:'I hope you come tomorrow.'},
+  {pre:'No creo que ',post:' verdad.',opts:['es','sea'],ok:1,why:'Denial triggers it. But <em>creo que es verdad</em> stays indicative.',en:'I do not think it is true.'},
+  {pre:'Me alegra que ',post:' acá.',opts:['estás','estés'],ok:1,why:'Emotion about a fact still takes subjunctive. This one surprises everyone.',en:'I am glad you are here.'}]}
+]},
+
+{n:'06',tag:'Hypotheticals',title:'If I had time',
+ lede:'The imperfect subjunctive plus the conditional is the sentence pattern that carries longing, regret and everything you would do but have not. It is built from the past, which is why it feels like distance.',
+ b:[
+ {t:'note',h:'Building it',x:'Take the <em>ellos</em> past — <em>hablaron, comieron, tuvieron</em> — drop <b>-ron</b>, add <b>-ra</b>. <em>Hablara, comiera, tuviera.</em> No exceptions, ever, including every irregular verb.'},
+ {t:'ph',items:[
+  ['Si tuviera tiempo, me quedaría.','If I had time, I would stay.','the core pattern'],
+  ['Si pudiera, te lo diría.','If I could, I would tell you.',''],
+  ['Si fuera más valiente…','If I were braver…',''],
+  ['Me gustaría verte otra vez.','I would like to see you again.','softer than quiero'],
+  ['¿Te molestaría si me quedo?','Would it bother you if I stay?',''],
+  ['Ojalá tuviera una respuesta.','I wish I had an answer.','ojalá + imperfect = a wish about now'],
+  ['Quería preguntarte algo.','I wanted to ask you something.','past tense as politeness']]},
+ {t:'drill',items:[
+  {pre:'Si ',post:' más tiempo, te contaría todo.',opts:['tengo','tuviera'],ok:1,why:'Si + imperfect subjunctive is the hypothetical half.',en:'If I had more time, I would tell you everything.'},
+  {pre:'Me ',post:' que vinieras.',opts:['gustaría','gusta'],ok:0,why:'Conditional pairs with the subjunctive across the clause.',en:'I would like you to come.'}]}
+]},
+
+{n:'07',tag:'Warmth',title:'Affection is a suffix',
+ lede:'Spanish puts tenderness in the ending, not the adjective. Then Buenos Aires adds a set of particles that mark you as talking to someone rather than at them. These are cheap to learn and they colour everything.',
+ b:[
+ {t:'ph',items:[
+  ['un ratito','a little while','softer than un rato'],
+  ['un cafecito','a coffee','the invitation kind'],
+  ['despacito','slowly, gently',''],
+  ['un poquito','a little bit',''],
+  ['ahí nomás','right there','']]},
+ {t:'note',h:'The particles',x:'These do the work that tone of voice does in English. Drop them in and the register changes completely.'},
+ {t:'ph',items:[
+  ['Che, ¿vos qué decís?','Hey, what do you say?','opens anything'],
+  ['¿Viste?','You know? Right?','ends everything'],
+  ['Dale.','Okay. Go on.',''],
+  ['Posta.','For real. Seriously.',''],
+  ['Bancame un toque.','Hold on a second.',''],
+  ['Ni ahí.','No chance.',''],
+  ['Tranqui.','Easy, no rush.','']]},
+ {t:'note',h:'And the softeners',x:'Directness without softening reads as aggression in Spanish. These three phrases carry most of it: <em>igual</em> (anyway, but still), <em>en realidad</em> (actually), <em>la verdad</em> (honestly).'},
+ {t:'ph',items:[
+  ['Igual no importa.','It does not matter anyway.',''],
+  ['La verdad, no sé.','Honestly, I do not know.',''],
+  ['Puede ser.','Could be.','the great Argentine non-answer']]}
+]}
+];
+
+/* ============ Malena — offline tree ============ */
+const T={
+start:{es:'Che, hola. Soy Malena. ¿Vos cómo te llamás?',en:'Hey, hi. I am Malena. What is your name?',note:'vos · llamás',
+ o:[['Me llamo Irfán.','My name is Irfán.','name'],['¿Y vos?','And you?','back'],['No sé qué decir.','I do not know what to say.','calm']]},
+back:{es:'Malena, ya te lo dije. Dale, tu nombre.',en:'Malena, I already told you. Come on, your name.',note:'dale',
+ o:[['Perdón. Me llamo Irfán.','Sorry. My name is Irfán.','name']]},
+calm:{es:'Tranqui. No hace falta que sepas nada todavía.',en:'Relax. You do not need to know anything yet.',note:'no hace falta que + subjunctive',
+ o:[['Gracias. Me llamo Irfán.','Thanks. My name is Irfán.','name'],['¿Por qué sos tan amable?','Why are you so kind?','kind']]},
+kind:{es:'Porque me acuerdo de cuando yo no sabía. ¿Empezamos?',en:'Because I remember when I did not know. Shall we start?',note:'imperfecto — an ongoing past',
+ o:[['Dale. Me llamo Irfán.','Okay. My name is Irfán.','name']]},
+name:{es:'Irfán. Me gusta cómo suena. ¿De dónde sos?',en:'Irfán. I like how it sounds. Where are you from?',note:'me gusta — it pleases me',
+ o:[['Soy turco.','I am Turkish.','turco'],['Vivo en Holanda.','I live in Holland.','holanda'],['Es complicado.','It is complicated.','compl']]},
+compl:{es:'Las mejores respuestas siempre lo son. Contame igual.',en:'The best answers always are. Tell me anyway.',note:'contame — vos imperative',
+ o:[['Soy turco pero vivo en Holanda.','I am Turkish but I live in Holland.','both']]},
+turco:{es:'¡Turco! Nunca hablé con un turco. ¿Y vivís allá?',en:'Turkish! I have never spoken with a Turk. And do you live there?',note:'vivís',
+ o:[['No, en Holanda.','No, in Holland.','holanda'],['A veces vuelvo.','Sometimes I go back.','vuelvo']]},
+holanda:{es:'Holanda. Frío, ¿no? ¿Te gusta vivir ahí?',en:'Holland. Cold, no? Do you like living there?',note:'¿no? — tag question',
+ o:[['Sí, pero extraño el sol.','Yes, but I miss the sun.','sol'],['No mucho, la verdad.','Not much, honestly.','nomucho'],['Es tranquilo.','It is quiet.','tranq']]},
+both:{es:'Ah, mirá vos. Dos lugares. ¿Cuál sentís más tuyo?',en:'Oh, look at that. Two places. Which feels more yours?',note:'sentís',
+ o:[['Ninguno, todavía.','Neither, yet.','ninguno'],['Turquía.','Turkey.','vuelvo']]},
+ninguno:{es:'Eso lo dice mucha gente linda. ¿Y no te cansa?',en:'A lot of lovely people say that. And does it not tire you?',note:'cansar',
+ o:[['A veces.','Sometimes.','sol'],['Me gusta estar suelto.','I like being loose.','suelto']]},
+vuelvo:{es:'Volver siempre es raro, ¿viste? Nada te espera igual.',en:'Going back is always strange, right? Nothing waits for you the same.',note:'¿viste?',
+ o:[['Sí, posta.','Yes, for real.','posta'],['No lo había pensado así.','I had not thought of it that way.','pensado']]},
+sol:{es:'Ay, el sol. Acá en enero te derretís. ¿Qué hacés allá?',en:'Oh, the sun. Here in January you melt. What do you do over there?',note:'hacés',
+ o:[['Investigo y construyo cosas.','I research and build things.','trabajo'],['Demasiado.','Too much.','demasiado']]},
+nomucho:{es:'Bueno, al menos sos honesto. ¿Y qué te falta?',en:'Well, at least you are honest. And what are you missing?',note:'faltar — backwards verb',
+ o:[['Gente que hable con las manos.','People who talk with their hands.','manos'],['Calor.','Warmth.','sol']]},
+tranq:{es:'Tranquilo puede ser hermoso o puede ser un cementerio.',en:'Quiet can be beautiful or it can be a graveyard.',note:'ser — a property',
+ o:[['A veces las dos cosas.','Sometimes both.','manos'],['Jaja, sos intensa.','Ha, you are intense.','intensa']]},
+manos:{es:'Acá hablamos con todo el cuerpo. Te va a gustar.',en:'Here we talk with the whole body. You will like it.',note:'ir a + infinitive = future',
+ o:[['Espero que sí.','I hope so.','espero'],['¿Vos también?','You too?','intensa']]},
+intensa:{es:'Soy porteña, amor. Es el default. ¿Te asusta?',en:'I am from Buenos Aires, love. It is the default. Does that scare you?',note:'asustar',
+ o:[['Para nada.','Not at all.','paranada'],['Un poquito.','A little bit.','poquito']]},
+poquito:{es:'“Un poquito.” Ya hablás como nosotros. Me encanta.',en:'“A little bit.” You already talk like us. I love it.',note:'-ito — the diminutive',
+ o:[['Aprendo rápido.','I learn fast.','rapido'],['Me sale sin pensar.','It comes out without thinking.','rapido']]},
+paranada:{es:'Mentira. Pero me gusta que lo digas.',en:'Liar. But I like that you say it.',note:'me gusta que + subjunctive',
+ o:[['Bueno, un poquito.','Okay, a little bit.','poquito']]},
+rapido:{es:'Se nota. ¿Y por qué querés aprender castellano?',en:'It shows. And why do you want to learn Spanish?',note:'querés',
+ o:[['Quiero hablar en serio, no de turismo.','I want to talk seriously, not tourism.','enserio'],['Por una persona.','Because of a person.','persona']]},
+trabajo:{es:'¿Construís qué? Contame bien.',en:'You build what? Tell me properly.',note:'construís',
+ o:[['Sistemas. Software.','Systems. Software.','sistemas'],['Es difícil de explicar.','It is hard to explain.','dificil']]},
+demasiado:{es:'Uf, te entiendo. ¿Y descansás alguna vez?',en:'Ugh, I get you. And do you ever rest?',note:'descansás',
+ o:[['No mucho.','Not much.','nodescanso'],['Cuando puedo.','When I can.','nodescanso']]},
+nodescanso:{es:'Ojalá que aprendas a parar antes de que te rompas.',en:'I hope you learn to stop before you break.',note:'ojalá que · antes de que — both subjunctive',
+ o:[['Me lo dicen mucho.','People tell me that a lot.','medicen'],['Lo estoy intentando.','I am trying.','intentando']]},
+sistemas:{es:'No entiendo nada pero me gusta cómo lo decís.',en:'I do not understand a thing but I like how you say it.',note:'decís',
+ o:[['Gracias, che.','Thanks.','gracias'],['Yo tampoco entiendo a veces.','I do not understand either sometimes.','tampoco']]},
+dificil:{es:'Todo lo importante es difícil de explicar. Probá igual.',en:'Everything important is hard to explain. Try anyway.',note:'probá',
+ o:[['Hago cosas que se coordinan solas.','I make things that coordinate themselves.','sistemas']]},
+enserio:{es:'Eso es lo difícil. Para eso necesitás el subjuntivo.',en:'That is the hard part. For that you need the subjunctive.',note:'necesitás',
+ o:[['Ya lo estoy aprendiendo.','I am already learning it.','aprendiendo'],['¿Por qué ese y no otro?','Why that one and not another?','porque']]},
+porque:{es:'Porque sin él sólo podés decir lo que es. No lo que querés que sea.',en:'Because without it you can only say what is. Not what you want it to be.',note:'querés que sea — the whole lesson in four words',
+ o:[['Eso me gustó.','I liked that.','gusto'],['Decime otra.','Tell me another.','otra']]},
+aprendiendo:{es:'Se nota. Dale, decime algo con “espero que”.',en:'It shows. Go on, say something with “espero que”.',note:'estar + gerund',
+ o:[['Espero que hablemos otra vez.','I hope we talk again.','espero'],['Espero que tengas paciencia.','I hope you have patience.','espero']]},
+espero:{es:'Perfecto. Ahí lo tenés. Eso ya no es español de turista.',en:'Perfect. There you have it. That is not tourist Spanish anymore.',note:'tenés',
+ o:[['Se siente distinto.','It feels different.','distinto'],['Decime otra cosa.','Tell me something else.','otra']]},
+persona:{es:'Ah. Siempre es por una persona. ¿Y ella sabe?',en:'Ah. It is always because of a person. And does she know?',note:'saber',
+ o:[['Todavía no.','Not yet.','todavia'],['No hay nadie, mentí.','There is no one, I lied.','menti']]},
+menti:{es:'Jaja. Mentiste en castellano. Eso es progreso.',en:'Ha. You lied in Spanish. That is progress.',note:'mentiste — pretérito, a closed event',
+ o:[['Aprendo rápido.','I learn fast.','rapido']]},
+todavia:{es:'“Todavía no” es la respuesta más linda que hay.',en:'“Not yet” is the loveliest answer there is.',note:'todavía no',
+ o:[['¿Por qué?','Why?','porqueno'],['Me gusta eso.','I like that.','gusto']]},
+porqueno:{es:'Porque todavía no significa que puede ser. Nada está cerrado.',en:'Because not yet means it could be. Nothing is closed.',note:'estar cerrado — a state',
+ o:[['Eso me gustó mucho.','I liked that a lot.','gusto'],['Vos pensás como yo.','You think like me.','comoyo']]},
+comoyo:{es:'Entonces vamos a llevarnos bien. ¿Seguimos mañana?',en:'Then we are going to get along. Shall we continue tomorrow?',note:'llevarse bien',
+ o:[['Dale. Mañana.','Okay. Tomorrow.','fin'],['Quiero seguir ahora.','I want to keep going now.','otra']]},
+gusto:{es:'Me alegra que te guste. Sos más profundo de lo que parecés.',en:'I am glad you like it. You are deeper than you seem.',note:'me alegra que + subjunctive',
+ o:[['Todos dicen eso al final.','Everyone says that eventually.','todos'],['Vos también.','You too.','comoyo']]},
+todos:{es:'Entonces no es casualidad. No creo que sea casualidad.',en:'Then it is not a coincidence. I do not think it is a coincidence.',note:'no creo que + subjunctive',
+ o:[['Estás callada de repente.','You have gone quiet suddenly.','callada'],['Decime otra.','Tell me another.','otra']]},
+callada:{es:'Estoy pensando. Usaste “estás” y no “sos”. Lo hiciste bien.',en:'I am thinking. You used “estás” not “sos”. You got it right.',note:'estar — a state, not a trait',
+ o:[['Lo entendí.','I understood it.','entendi'],['Fue suerte.','It was luck.','entendi']]},
+entendi:{es:'No fue suerte. Fue que escuchaste. ¿Seguimos mañana?',en:'It was not luck. It was that you listened. Shall we continue tomorrow?',note:'escuchaste — pretérito',
+ o:[['Dale.','Okay.','fin'],['Una más.','One more.','otra']]},
+otra:{es:'Si tuviera más tiempo, te contaría de mi barrio.',en:'If I had more time, I would tell you about my neighbourhood.',note:'si tuviera… contaría — the hypothetical pair',
+ o:[['Contame igual.','Tell me anyway.','barrio'],['Otro día.','Another day.','fin']]},
+barrio:{es:'Vivo en Chacarita. Feo de día, hermoso de noche. Como todo acá.',en:'I live in Chacarita. Ugly by day, beautiful by night. Like everything here.',note:'ser — inherent',
+ o:[['Quiero verlo.','I want to see it.','verlo'],['Suena a vos.','Sounds like you.','comoyo']]},
+verlo:{es:'Cuando vengas, te llevo. Fijate que dije “vengas”.',en:'When you come, I will take you. Notice I said “vengas”.',note:'cuando + subjunctive — a future that has not happened',
+ o:[['Porque todavía no pasó.','Because it has not happened yet.','fin'],['No entendí.','I did not get it.','cuando']]},
+cuando:{es:'“Cuando venís” es rutina. “Cuando vengas” es todavía posible.',en:'“Cuando venís” is routine. “Cuando vengas” is still possible.',note:'indicative vs subjunctive',
+ o:[['Ahora sí.','Now I get it.','fin']]},
+pensado:{es:'Por eso hablamos. Se piensa distinto en otro idioma.',en:'That is why we talk. You think differently in another language.',note:'se piensa — impersonal',
+ o:[['Eso quiero.','That is what I want.','enserio']]},
+posta:{es:'“Posta.” Ya sos medio argentino. ¿Quién te enseñó?',en:'“Posta.” You are half Argentine already. Who taught you?',note:'posta',
+ o:[['Vos.','You.','vos'],['Nadie, escucho.','No one, I listen.','rapido']]},
+vos:{es:'Bueno, entonces me porté bien. ¿Seguimos mañana?',en:'Well then, I did well. Shall we continue tomorrow?',note:'portarse bien',
+ o:[['Dale.','Okay.','fin'],['Una más.','One more.','otra']]},
+suelto:{es:'Suelto está bien hasta que querés que alguien te agarre.',en:'Loose is fine until you want someone to hold you.',note:'querés que + subjunctive',
+ o:[['Eso fue directo.','That was direct.','gusto'],['Todavía no.','Not yet.','todavia']]},
+medicen:{es:'Y no escuchás a nadie, me imagino.',en:'And you listen to no one, I imagine.',note:'escuchás',
+ o:[['A vos te escucho.','I listen to you.','vos'],['Estoy intentando.','I am trying.','intentando']]},
+intentando:{es:'Intentar ya es algo. ¿Seguimos mañana?',en:'Trying is already something. Shall we continue tomorrow?',note:'intentar',
+ o:[['Dale.','Okay.','fin'],['Una más.','One more.','otra']]},
+gracias:{es:'De nada, che. ¿Seguimos mañana?',en:'You are welcome. Shall we continue tomorrow?',note:'de nada',
+ o:[['Dale.','Okay.','fin'],['Una más.','One more.','otra']]},
+tampoco:{es:'Eso es lo más honesto que dijiste. Me gusta.',en:'That is the most honest thing you said. I like it.',note:'lo más + adjective',
+ o:[['Gracias.','Thanks.','gracias'],['Decime otra.','Tell me another.','otra']]},
+distinto:{es:'Es distinto. Estás diciendo cosas, no repitiendo.',en:'It is different. You are saying things, not repeating.',note:'estar + gerund',
+ o:[['Eso quería.','That is what I wanted.','gusto'],['Seguimos mañana.','Let us continue tomorrow.','fin']]},
+fin:{es:'Dale. Mañana volvés y arrancamos de nuevo. Chau, Irfán.',en:'Okay. Tomorrow you come back and we start again. Bye, Irfán.',note:'volvés',
+ o:[['Chau, Malena.','Bye, Malena.','start']]}
+};
+let node='start';
+function startTutor(){
+  const log=document.getElementById('log'),tin=document.getElementById('tin'),tsend=document.getElementById('tsend');
+  function bubble(who,es,en,note){
+    const d=document.createElement('div');d.className='msg '+who;
+    let h='<p class="who">'+(who==='her'?'Malena':'vos')+'</p><p class="es" data-say="'+es.replace(/"/g,'&quot;')+'">'+es+'</p>';
+    if(en)h+='<p class="en">'+en+'</p>';
+    h+=interlinear(es);
+    if(note)h+='<p class="note">'+note+'</p>';
+    d.innerHTML=h;log.appendChild(d);log.scrollTop=log.scrollHeight;
+  }
+  function draw(){
+    const n=T[node]||T.start;
+    bubble('her',n.es,n.en,n.note||'');say(n.es,log.querySelector('.msg:last-child .es'));
+    const s=document.getElementById('starters');s.innerHTML='';
+    n.o.forEach(([es,en,to])=>{
+      const b=document.createElement('button');b.className='chip';
+      b.innerHTML='<span class="c-es">'+es+'</span><span class="c-en">'+en+'</span>';
+      b.onclick=()=>{bubble('you',es,en,'');node=to;setTimeout(draw,340);};
+      s.appendChild(b);
+    });
+  }
+  function free(t){
+    if(!t.trim())return;
+    bubble('you',t,'','');tin.value='';
+    const n=T[node]||T.start;
+    node=n.o[Math.floor(Math.random()*n.o.length)][2];
+    setTimeout(draw,340);
+  }
+  tsend.onclick=()=>free(tin.value);
+  tin.addEventListener('keydown',e=>{if(e.key==='Enter')free(tin.value);});
+  draw();
+}
+
+/* ============ speech (optional) ============ */
+const SS=(typeof window!=='undefined'&&window.speechSynthesis)?window.speechSynthesis:null;
+const SU=(typeof window!=='undefined'&&window.SpeechSynthesisUtterance)?window.SpeechSynthesisUtterance:null;
+const SPEECH=!!(SS&&SU);let voice=null;
+function pickVoice(){if(!SPEECH)return;try{const v=SS.getVoices()||[];
+voice=v.find(x=>x.lang==='es-AR')||v.find(x=>x.lang==='es-419')||v.find(x=>x.lang==='es-MX')||v.find(x=>x.lang&&x.lang.indexOf('es')===0)||null;}catch(e){}}
+if(SPEECH){pickVoice();try{SS.onvoiceschanged=pickVoice;}catch(e){}}
+function phon(t){return t.toLowerCase().replace(/[¿¡"“”]/g,'')
+ .replace(/ll|y(?=[aeiouáéíóú])/g,'sh').replace(/\bhu(?=[ei])/g,'w').replace(/h/g,'')
+ .replace(/qu(?=[ei])/g,'k').replace(/c(?=[ei])/g,'s').replace(/c/g,'k').replace(/z/g,'s')
+ .replace(/g(?=[ei])/g,'h').replace(/j/g,'h').replace(/v/g,'b').replace(/ñ/g,'ny')
+ .replace(/rr/g,'RR').replace(/\s+/g,' ').trim();}
+function say(t,el){
+  if(SPEECH){try{SS.cancel();const u=new SU(t);u.lang='es-AR';if(voice)u.voice=voice;u.rate=.88;SS.speak(u);return;}catch(e){}}
+  if(!el)return;
+  let p=el.parentNode.querySelector('.phon');
+  if(!p){p=document.createElement('p');p.className='phon';el.parentNode.insertBefore(p,el.nextSibling);}
+  p.textContent=phon(t);
+}
+
+/* ============ interlinear ============ */
+function interlinear(text){
+  let h='<div class="il">';
+  text.split(/(\s+)/).forEach(p=>{
+    if(!p.trim())return;
+    const bare=p.toLowerCase().replace(/[.,¿?¡!—…:"·]/g,'');
+    h+='<span class="ilw"><span class="ilw-es">'+p+'</span><span class="ilw-en">'+(G[bare]||'·')+'</span></span>';
+  });
+  return h+'</div>';
+}
+function phraseRow(es,en,hint){
+  return '<div class="row"><p class="es" data-say="'+es.replace(/"/g,'&quot;')+'">'+es+'</p>'+
+    '<p class="en">'+en+'</p>'+interlinear(es)+
+    (hint?'<p class="hint">'+hint+'</p>':'')+'</div>';
+}
+
+/* ============ conjugator ============ */
+const IRREG={ser:['sos','sé'],ir:['vas','andá'],haber:['has','—']};
+const ACC={a:'á',e:'é',i:'í'};
+function vosForm(inf){
+  inf=(inf||'').trim().toLowerCase();
+  if(!inf)return null;
+  if(IRREG[inf])return{f:IRREG[inf][0],i:IRREG[inf][1],rule:'irregular'};
+  const m=inf.match(/^(.+?)([aei])r$/);
+  if(!m)return{f:'—',i:'—',rule:'needs to end in -ar, -er or -ir'};
+  return{f:m[1]+ACC[m[2]]+'s',i:m[1]+ACC[m[2]],rule:'drop -r · add -s · stress the last vowel'};
+}
+function enOf(inf){
+  const g=G[(inf||'').trim().toLowerCase()];
+  if(!g)return'';
+  return g.replace(/^to-/,'').replace(/-/g,' ');
+}
+function conjHTML(){
+  return '<div class="card"><h3>Conjugator</h3>'+
+   '<input type="text" id="vin" placeholder="any infinitive" autocomplete="off" spellcheck="false">'+
+   '<div class="out" id="vout"></div><div class="chips" id="vchips"></div></div>';
+}
+const CHIPS=[['hablar','to speak'],['comer','to eat'],['vivir','to live'],['tener','to have'],
+['sentir','to feel'],['venir','to come'],['salir','to go out'],['ser','to be'],['poder','to be able']];
+function wireConj(){
+  const vin=document.getElementById('vin'),vout=document.getElementById('vout');
+  if(!vin)return;
+  function run(){
+    const r=vosForm(vin.value);
+    if(!r||!vin.value.trim()){vout.innerHTML='';return;}
+    const en=enOf(vin.value);
+    vout.innerHTML='vos <b>'+r.f+'</b>'+(r.i!=='—'?' <span style="opacity:.45">·</span> ¡'+r.i+'!':'')+
+      '<span class="oen">'+(en?'you '+en+(r.i!=='—'?' &nbsp;·&nbsp; “'+en.replace(/^(\w+)/, '$1')+'!” as a command':''):'&nbsp;')+'</span>'+
+      '<span class="orule">'+r.rule+'</span>';
+    vout.onclick=()=>say('vos '+r.f,vout);
+    [...document.querySelectorAll('#vchips .chip')].forEach(c=>
+      c.classList.toggle('on',c.dataset.w===vin.value.trim().toLowerCase()));
+  }
+  vin.addEventListener('input',run);
+  const box=document.getElementById('vchips');
+  CHIPS.forEach(([w,en])=>{
+    const b=document.createElement('button');b.className='chip';b.dataset.w=w;
+    b.innerHTML='<span class="c-es">'+w+'</span><span class="c-en">'+en+'</span>';
+    b.onclick=()=>{vin.value=w;run();};
+    box.appendChild(b);
+  });
+  vin.value='hablar';run();
+}
+
+/* ============ ser / estar ============ */
+const PAIRS=[
+ {a:'linda',s:'You <b>are</b> beautiful — a fact about you.',e:'You <b>look</b> beautiful — tonight, and I noticed.'},
+ {a:'aburrido',s:'You <b>are boring</b>. A property. Careful.',e:'You <b>are bored</b>. A state. Entirely different sentence.'},
+ {a:'rico',s:'He <b>is rich</b>.',e:'It <b>tastes delicious</b>. Of a person: they look very good.'},
+ {a:'listo',s:'You <b>are clever</b>.',e:'You <b>are ready</b>.'},
+ {a:'callado',s:'You <b>are a quiet person</b>. A description.',e:'You <b>have gone quiet</b>. An invitation to say what you are not saying.'}
+];
+function swHTML(){
+  return '<div class="sw"><div class="sw-head"><button id="bSer" class="on">sos</button><button id="bEst">estás</button></div>'+
+   '<div class="sw-body"><p class="sw-s" id="sS"></p><p class="sw-m" id="sM"></p><div class="sw-nav" id="sN"></div></div></div>';
+}
+function wireSw(){
+  let i=0,m='s';
+  const S=document.getElementById('sS'),M=document.getElementById('sM'),N=document.getElementById('sN'),
+        BS=document.getElementById('bSer'),BE=document.getElementById('bEst');
+  if(!S)return;
+  function draw(){
+    const p=PAIRS[i],v=m==='s'?'Sos':'Estás';
+    S.innerHTML='<span class="v">'+v+'</span> '+p.a+'.';
+    S.onclick=()=>say(v+' '+p.a,S);
+    M.innerHTML=(m==='s'?p.s:p.e);
+    BS.classList.toggle('on',m==='s');BE.classList.toggle('on',m==='e');
+    [...N.children].forEach((b,j)=>b.classList.toggle('on',j===i));
+  }
+  BS.onclick=()=>{m='s';draw();};BE.onclick=()=>{m='e';draw();};
+  PAIRS.forEach((p,j)=>{const b=document.createElement('button');b.textContent=p.a;
+    b.onclick=()=>{i=j;draw();};N.appendChild(b);});
+  draw();
+}
+
+/* ============ drills ============ */
+let drillN=0;
+function drillHTML(items,id){
+  return '<div class="card" data-drill="'+id+'"><h3>Choose the form</h3>'+
+   '<p class="dprog"></p><p class="dq"></p><p class="den"></p><div class="dopts"></div><p class="dfb"></p>'+
+   '<button class="dnext">NEXT →</button></div>';
+}
+function wireDrill(host,items){
+  let k=0;
+  const prog=host.querySelector('.dprog'),q=host.querySelector('.dq'),en=host.querySelector('.den'),
+        opts=host.querySelector('.dopts'),fb=host.querySelector('.dfb'),next=host.querySelector('.dnext');
+  next.onclick=()=>{k++;draw();};
+  function draw(){
+    const d=items[k];
+    prog.textContent=(k+1)+' / '+items.length;
+    q.innerHTML=d.pre+'<span class="gap">?</span>'+d.post;
+    en.textContent=d.en;fb.innerHTML='';opts.innerHTML='';
+    next.classList.remove('show');
+    next.textContent = k<items.length-1 ? 'NEXT →' : 'AGAIN ↺';
+    if(k>=items.length){k=0;draw();return;}
+    d.opts.forEach((o,j)=>{
+      const b=document.createElement('button');b.textContent=o;
+      b.onclick=()=>{
+        [...opts.children].forEach((c,z)=>c.className=z===d.ok?'right':(z===j?'wrong':''));
+        const full=d.pre+d.opts[d.ok]+d.post;
+        q.innerHTML=d.pre+'<span class="gap">'+d.opts[d.ok]+'</span>'+d.post;
+        q.setAttribute('data-say',full);
+        say(full,q);
+        fb.innerHTML=d.why;
+        next.classList.add('show');
+        if(k>=items.length-1) next.onclick=()=>{k=0;draw();};
+      };
+      opts.appendChild(b);
+    });
+  }
+  draw();
+}
+
+/* ============ render ============ */
+function build(){
+  const main=document.getElementById('main'),nav=document.getElementById('nav');
+  UNITS.forEach((u,ui)=>{
+    const sec=document.createElement('section');
+    sec.className='unit';sec.id='u'+u.n;
+    let h='<p class="tag">'+u.n+' · '+u.tag+'</p><h2>'+u.title+'</h2><p>'+u.lede+'</p>';
+    u.b.forEach((b,bi)=>{
+      if(b.t==='note') h+='<div class="note-b"><h3>'+b.h+'</h3><p>'+b.x+'</p></div>';
+      if(b.t==='ph'){ h+='<div class="rows">'; b.items.forEach(([es,en,hint])=>h+=phraseRow(es,en,hint)); h+='</div>'; }
+      if(b.t==='conj') h+=conjHTML();
+      if(b.t==='switch') h+=swHTML();
+      if(b.t==='drill') h+=drillHTML(b.items,u.n+'-'+bi);
+    });
+    sec.innerHTML=h;main.appendChild(sec);
+    u.b.forEach((b,bi)=>{ if(b.t==='drill') wireDrill(sec.querySelector('[data-drill="'+u.n+'-'+bi+'"]'),b.items); });
+    const nb=document.createElement('button');nb.textContent=u.n+' '+u.tag;
+    nb.onclick=()=>{document.getElementById('u'+u.n).scrollIntoView({behavior:'smooth'});
+      [...nav.children].forEach(c=>c.classList.remove('on'));nb.classList.add('on');};
+    nav.appendChild(nb);
+  });
+  const mb=document.createElement('button');mb.textContent='08 Malena';
+  mb.onclick=()=>{document.getElementById('u-malena').scrollIntoView({behavior:'smooth'});
+    [...nav.children].forEach(c=>c.classList.remove('on'));mb.classList.add('on');};
+  nav.appendChild(mb);
+  wireConj();wireSw();
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-say]');
+    if(el) say(el.dataset.say,el);
+  });
+}
+build();
+startTutor();
+if(!SPEECH){
+  const n=document.createElement('div');n.className='nospeech-bar';
+  n.innerHTML='No voice in this frame. Tapping a line shows its Buenos Aires respelling instead — <b>sh</b> for <em>ll</em> and <em>y</em>, <b>h</b> for <em>j</em>, <b>b</b> for <em>v</em>, silent <em>h</em>. Open in a browser tab for audio.';
+  const nav=document.getElementById('nav');
+  nav.parentNode.insertBefore(n,nav.nextSibling);
+}
+
+</script>
+</body>
+</html>
